@@ -88,6 +88,10 @@ Plane::Plane(const char *frame_str) :
         mass = 2.0;
         coefficient.c_drag_p = 0.05;
     }
+    if (strstr(frame_str, "-tiltviable")) {
+        mass = 4.0; //MODIF was 4.0;
+        thrust_scale = (mass * GRAVITY_MSS) / hover_throttle;
+    }
 }
 
 /*
@@ -316,8 +320,13 @@ void Plane::calculate_forces(const struct sitl_input &input, Vector3f &rot_accel
     }
 
     // calculate angle of attack
-    angle_of_attack = atan2f(velocity_air_bf.z, velocity_air_bf.x);
-    beta = atan2f(velocity_air_bf.y,velocity_air_bf.x);
+    if(velocity_air_bf.x > 0) { //MODIF
+    	angle_of_attack = atan2f(velocity_air_bf.z, velocity_air_bf.x);
+    	beta = atan2f(velocity_air_bf.y,velocity_air_bf.x);
+    } else {
+    	angle_of_attack = 0;
+    	beta = 0;
+    }
 
     if (tailsitter) {
         /*

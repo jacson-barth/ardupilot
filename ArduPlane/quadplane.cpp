@@ -155,7 +155,7 @@ const AP_Param::GroupInfo QuadPlane::var_info[] = {
     // @Param: FRAME_TYPE
     // @DisplayName: Frame Type (+, X or V)
     // @Description: Controls motor mixing for multicopter component
-    // @Values: 0:Plus, 1:X, 2:V, 3:H, 4:V-Tail, 5:A-Tail, 10:Y6B, 11:Y6F, 12:BetaFlightX, 13:DJIX, 14:ClockwiseX, 15:I, 16:MOTOR_FRAME_TYPE_NYT_PLUS, 17:MOTOR_FRAME_TYPE_NYT_X, 18: BetaFlightXReversed
+    // @Values: 0:Plus, 1:X, 2:V, 3:H, 4:V-Tail, 5:A-Tail, 7: Tilt-Viable, 10:Y6B, 11:Y6F, 12:BetaFlightX, 13:DJIX, 14:ClockwiseX, 15:I, 16:MOTOR_FRAME_TYPE_NYT_PLUS, 17:MOTOR_FRAME_TYPE_NYT_X, 18: BetaFlightXReversed
     // @User: Standard
     AP_GROUPINFO("FRAME_TYPE", 31, QuadPlane, frame_type, 1),
 
@@ -2705,7 +2705,7 @@ void QuadPlane::takeoff_controller(void)
     pos_control->set_xy_target(poscontrol.target.x, poscontrol.target.y);
     pos_control->update_xy_controller();
 
-    // nav roll and pitch are controller by position controller
+    // nav roll and pitch are controlled by position controller
     plane.nav_roll_cd = pos_control->get_roll();
     plane.nav_pitch_cd = pos_control->get_pitch();
 

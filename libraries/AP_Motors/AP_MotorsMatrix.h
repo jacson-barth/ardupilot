@@ -10,6 +10,14 @@
 #define AP_MOTORS_MATRIX_YAW_FACTOR_CW   -1
 #define AP_MOTORS_MATRIX_YAW_FACTOR_CCW   1
 
+#define AP_MOTORS_ARM_TILTVIABLE_X1 1
+#define AP_MOTORS_ARM_TILTVIABLE_X3 1
+#define AP_MOTORS_ARM_TILTVIABLE_Y1 1
+#define AP_MOTORS_ARM_TILTVIABLE_Y3 1
+#define AP_MOTORS_ARM_TILTVIABLE_Z1 0
+#define AP_MOTORS_ARM_TILTVIABLE_Z3 0
+
+
 /// @class      AP_MotorsMatrix
 class AP_MotorsMatrix : public AP_MotorsMulticopter {
 public:

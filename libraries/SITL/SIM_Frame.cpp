@@ -278,6 +278,23 @@ static Motor firefly_motors[] =
 };
 
 /*
+ * VIABLE tiltrotor frame, turbines so no moment created by rotor blades
+ */
+static Motor tiltrotor_viable_motors[] = //MODIF
+{
+    //Motor(AP_MOTORS_MOT_1, Vector3f(- AP_MOTORS_ARM_TILTVIABLE_X1, - AP_MOTORS_ARM_TILTVIABLE_Y1, AP_MOTORS_ARM_TILTVIABLE_Z1),   45, 0, 1, -1, 0, 0, 10, 30, -90), // considering 0 is vertical
+    //Motor(AP_MOTORS_MOT_2, Vector3f(  AP_MOTORS_ARM_TILTVIABLE_X3,   AP_MOTORS_ARM_TILTVIABLE_Y3, AP_MOTORS_ARM_TILTVIABLE_Z1), -135, 0, 3, -1, 0, 0, 11, 30, -90), // yaw_factor = 0 because no torque from turbines
+    //Motor(AP_MOTORS_MOT_3, Vector3f(- AP_MOTORS_ARM_TILTVIABLE_X1,   AP_MOTORS_ARM_TILTVIABLE_Y1, AP_MOTORS_ARM_TILTVIABLE_Z3),  -45, 0, 4, -1, 0, 0,  9, 30, -90),
+    //Motor(AP_MOTORS_MOT_4, Vector3f(  AP_MOTORS_ARM_TILTVIABLE_X3, - AP_MOTORS_ARM_TILTVIABLE_Y3, AP_MOTORS_ARM_TILTVIABLE_Z3),  135, 0, 2, -1, 0, 0, 12, 30, -90),
+
+	Motor(AP_MOTORS_MOT_1,  45, 0, 1, -1, 0, 0, 5, 10, -90), // considering 0 is vertical
+	Motor(AP_MOTORS_MOT_2,-135, 0, 3, -1, 0, 0, 6, 10, -90), // yaw_factor = 0 because no torque from turbines
+	Motor(AP_MOTORS_MOT_3, -45, 0, 4, -1, 0, 0, 4, 10, -90), // using the usual constructor since we aren't using the motor position yet
+	Motor(AP_MOTORS_MOT_4, 135, 0, 2, -1, 0, 0, 7, 10, -90), // was 7 8 9 10
+};
+
+
+/*
   table of supported frame types. String order is important for
   partial name matching
  */
@@ -308,7 +325,8 @@ static Frame supported_frames[] =
     Frame("tilttrivec",3, tilttri_vectored_motors),
     Frame("tilttri",   3, tilttri_motors),
     Frame("y6",        6, y6_motors),
-    Frame("firefly",   6, firefly_motors)
+    Frame("firefly",   6, firefly_motors),
+    Frame("tiltviable",4, tiltrotor_viable_motors) //MODIF
 };
 
 // get air density in kg/m^3

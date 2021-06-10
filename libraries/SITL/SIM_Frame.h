@@ -76,7 +76,7 @@ private:
      */
     const struct Model {
         // model mass kg
-        float mass = 3.0;
+        float mass = 4.0;// MODIF was 6.0; before was 3.0;
 
         // diameter of model
         float diagonal_size = 0.35;
@@ -93,7 +93,8 @@ private:
         float refBatRes = 0.01; // BAT.Res
 
         // full pack voltage
-        float maxVoltage = 4.2*3;
+        //float maxVoltage = 4.2*3;
+        float maxVoltage = 4.2*6; // 6S tiltviable
 
         // battery capacity in Ah. Use zero for unlimited
         float battCapacityAh = 0.0;

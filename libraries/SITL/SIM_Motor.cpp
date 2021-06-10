@@ -18,6 +18,7 @@
 
 #include "SIM_Motor.h"
 #include <AP_Motors/AP_Motors.h>
+#include "stdio.h"
 
 using namespace SITL;
 
@@ -66,12 +67,15 @@ void Motor::calculate_forces(const struct sitl_input &input,
     // get thrust for untilted motor
     float motor_thrust = calc_thrust(command, air_density, effective_prop_area, velocity_in, velocity_max * voltage_scale);
 
-    // thrust in NED
+	// thrust in NED
     thrust = {0, 0, -motor_thrust};
 
     // define the arm position relative to center of mass
     Vector3f arm(cosf(radians(angle)), sinf(radians(angle)), 0);
     arm *= diagonal_size;
+
+    // for tilt rotor viable
+    //arm = turbine_pos; //MODIF
 
     // work out roll and pitch of motor relative to it pointing straight up
     float roll = 0, pitch = 0;
@@ -190,6 +194,7 @@ float Motor::calc_thrust(float command, float air_density, float effective_prop_
 {
     float velocity_out = velocity_max * sqrtf((1-mot_expo)*command + mot_expo*sq(command));
     float ret = 0.5 * air_density * effective_prop_area * (sq(velocity_out) - sq(velocity_in));
+    ret = 26*command; //MODIF VIABLE
 #if 0
     if (command > 0) {
         ::printf("air_density=%f effective_prop_area=%f velocity_in=%f velocity_max=%f\n",

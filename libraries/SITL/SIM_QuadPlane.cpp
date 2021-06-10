@@ -67,6 +67,9 @@ QuadPlane::QuadPlane(const char *frame_str) :
         frame_type = "tilttri";
         // fwd motor gives zero thrust
         thrust_scale = 0;
+    } else if(strstr(frame_str, "-tiltviable")) {
+    	frame_type = "tiltviable";
+        //elevons = true; //MODIF should be true to use elevons
     }
     frame = Frame::find_frame(frame_type);
     if (frame == nullptr) {

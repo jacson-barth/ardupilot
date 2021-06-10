@@ -440,6 +440,7 @@ bool NavEKF2_core::setOriginLLH(const Location &loc)
 void NavEKF2_core::setOrigin(const Location &loc)
 {
     EKF_origin = loc;
+
     // if flying, correct for height change from takeoff so that the origin is at field elevation
     if (inFlight) {
         EKF_origin.alt += (int32_t)(100.0f * stateStruct.position.z);

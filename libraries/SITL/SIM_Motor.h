@@ -29,6 +29,7 @@ class Motor {
 public:
     float angle;
     float yaw_factor;
+    //Vector3f turbine_pos; //MODIF
     uint8_t servo;
     uint8_t display_order;
 
@@ -68,6 +69,25 @@ public:
         pitch_min(_pitch_min),
         pitch_max(_pitch_max)
     {}
+
+    // alternative constructor for tiltrotor viable //MODIF
+	/*
+	Motor(uint8_t _servo, Vector3f _turbine_pos, float _angle, float _yaw_factor, uint8_t _display_order,
+		  int8_t _roll_servo, float _roll_min, float _roll_max,
+		  int8_t _pitch_servo, float _pitch_min, float _pitch_max) :
+		servo(_servo), // what servo output drives this motor
+		turbine_pos(_turbine_pos), // position of the turbine relative to body frame
+		angle(_angle), // angle in degrees from front
+		yaw_factor(_yaw_factor), // positive is clockwise
+		display_order(_display_order), // order for clockwise display
+		roll_servo(_roll_servo),
+		roll_min(_roll_min),
+		roll_max(_roll_max),
+		pitch_servo(_pitch_servo),
+		pitch_min(_pitch_min),
+		pitch_max(_pitch_max)
+	{}
+	 */
 
     void calculate_forces(const struct sitl_input &input,
                           uint8_t motor_offset,

@@ -315,7 +315,6 @@ void AP_MotorsMatrix::output_armed_stabilizing()
     for (i = 0; i < AP_MOTORS_MAX_NUM_MOTORS; i++) {
         if (motor_enabled[i]) {
             _thrust_rpyt_out[i] = _thrust_rpyt_out[i] + yaw_thrust * _yaw_factor[i];
-
             // record lowest roll + pitch + yaw command
             if (_thrust_rpyt_out[i] < rpy_low) {
                 rpy_low = _thrust_rpyt_out[i];
@@ -686,6 +685,14 @@ void AP_MotorsMatrix::setup_motors(motor_frame_class frame_class, motor_frame_ty
                     add_motor(AP_MOTORS_MOT_2, -90, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 4);
                     add_motor(AP_MOTORS_MOT_3, 0, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 1);
                     add_motor(AP_MOTORS_MOT_4, 180, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 3);
+                    break;
+                case MOTOR_FRAME_TYPE_TILTVIABLE: //MODIF
+                    // tilt viable
+                    _frame_type_string = "TILTVIABLE";
+                    add_motor(AP_MOTORS_MOT_1,   45, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 1);
+                    add_motor(AP_MOTORS_MOT_2, -135, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 3);
+                    add_motor(AP_MOTORS_MOT_3,  -45, AP_MOTORS_MATRIX_YAW_FACTOR_CW,  4);
+                    add_motor(AP_MOTORS_MOT_4,  135, AP_MOTORS_MATRIX_YAW_FACTOR_CW,  2);
                     break;
                 default:
                     // quad frame class does not support this frame type
