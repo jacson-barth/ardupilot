@@ -20,6 +20,8 @@
 #include "SIM_Plane.h"
 
 #include <stdio.h>
+#include <chrono>
+#include <cstdint>
 
 using namespace SITL;
 
@@ -264,11 +266,23 @@ Vector3f Plane::getForce(float inputAileron, float inputElevator, float inputRud
 
 void Plane::calculate_forces(const struct sitl_input &input, Vector3f &rot_accel)
 {
+	/*
+	// printing the servo inputs every 0.1s approximately
+	using namespace std::chrono;
+	uint64_t curr_time = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+	if(curr_time % 100 < 10){
+		for(int i=4;i<8;i++){
+			printf("s[%d] = %d ",i,input.servos[i]);// MODIF print
+		}
+		printf("\n");
+	}
+	*/
     float aileron  = filtered_servo_angle(input, 0);
     float elevator = filtered_servo_angle(input, 1);
     float rudder   = filtered_servo_angle(input, 3);
     bool launch_triggered = input.servos[6] > 1700;
     float throttle;
+
     if (reverse_elevator_rudder) {
         elevator = -elevator;
         rudder = -rudder;
@@ -292,9 +306,9 @@ void Plane::calculate_forces(const struct sitl_input &input, Vector3f &rot_accel
         rudder   = (ch2+ch1)/2.0f;
     } else if (dspoilers) {
         // fake a differential spoiler plane. Use outputs 1, 2, 4 and 5
-        float dspoiler1_left = filtered_servo_angle(input, 0);
+        float dspoiler1_left  = filtered_servo_angle(input, 0);
         float dspoiler1_right = filtered_servo_angle(input, 1);
-        float dspoiler2_left = filtered_servo_angle(input, 3);
+        float dspoiler2_left  = filtered_servo_angle(input, 3);
         float dspoiler2_right = filtered_servo_angle(input, 4);
         float elevon_left  = (dspoiler1_left + dspoiler2_left)/2;
         float elevon_right = (dspoiler1_right + dspoiler2_right)/2;
@@ -302,6 +316,17 @@ void Plane::calculate_forces(const struct sitl_input &input, Vector3f &rot_accel
         elevator = (elevon_left+elevon_right)/2;
         rudder = fabsf(dspoiler1_right - dspoiler2_right)/2 - fabsf(dspoiler1_left - dspoiler2_left)/2;
     }
+
+    //if(is_zero(rudder)){
+    if(input.servos[3] == 0){
+    	// fake differential thrust for rudder
+    	float in4 = (input.servos[4] - 1000)/1000.0f;
+    	float in5 = (input.servos[5] - 1000)/1000.0f;
+    	float in6 = (input.servos[6] - 1000)/1000.0f;
+    	float in7 = (input.servos[7] - 1000)/1000.0f;
+    	rudder = constrain_float(in4 + in6 - in5 - in7, -1, 1);
+    }
+
     //printf("Aileron: %.1f elevator: %.1f rudder: %.1f\n", aileron, elevator, rudder);
 
     if (reverse_thrust) {
