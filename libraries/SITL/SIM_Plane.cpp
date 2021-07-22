@@ -91,7 +91,7 @@ Plane::Plane(const char *frame_str) :
         coefficient.c_drag_p = 0.05;
     }
     if (strstr(frame_str, "-tiltviable")) {
-        mass = 4.0; //MODIF was 4.0;
+        mass = 4.0;
         thrust_scale = (mass * GRAVITY_MSS) / hover_throttle;
     }
 }
@@ -266,17 +266,6 @@ Vector3f Plane::getForce(float inputAileron, float inputElevator, float inputRud
 
 void Plane::calculate_forces(const struct sitl_input &input, Vector3f &rot_accel)
 {
-	/*
-	// printing the servo inputs every 0.1s approximately
-	using namespace std::chrono;
-	uint64_t curr_time = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
-	if(curr_time % 100 < 10){
-		for(int i=4;i<8;i++){
-			printf("s[%d] = %d ",i,input.servos[i]);// MODIF print
-		}
-		printf("\n");
-	}
-	*/
     float aileron  = filtered_servo_angle(input, 0);
     float elevator = filtered_servo_angle(input, 1);
     float rudder   = filtered_servo_angle(input, 3);
@@ -317,17 +306,14 @@ void Plane::calculate_forces(const struct sitl_input &input, Vector3f &rot_accel
         rudder = fabsf(dspoiler1_right - dspoiler2_right)/2 - fabsf(dspoiler1_left - dspoiler2_left)/2;
     }
 
-    //if(is_zero(rudder)){
     if(input.servos[3] == 0){
     	// fake differential thrust for rudder
     	float in4 = (input.servos[4] - 1000)/1000.0f;
     	float in5 = (input.servos[5] - 1000)/1000.0f;
     	float in6 = (input.servos[6] - 1000)/1000.0f;
     	float in7 = (input.servos[7] - 1000)/1000.0f;
-    	rudder = constrain_float(in4 + in6 - in5 - in7, -1, 1);
+    	rudder = constrain_float(in4 + in7 - in5 - in6, -1, 1);
     }
-
-    //printf("Aileron: %.1f elevator: %.1f rudder: %.1f\n", aileron, elevator, rudder);
 
     if (reverse_thrust) {
         throttle = filtered_servo_angle(input, 2);
@@ -345,7 +331,7 @@ void Plane::calculate_forces(const struct sitl_input &input, Vector3f &rot_accel
     }
 
     // calculate angle of attack
-    if(velocity_air_bf.x > 0) { //MODIF
+    if(velocity_air_bf.x > 0) {
     	angle_of_attack = atan2f(velocity_air_bf.z, velocity_air_bf.x);
     	beta = atan2f(velocity_air_bf.y,velocity_air_bf.x);
     } else {

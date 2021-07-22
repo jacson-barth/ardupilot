@@ -264,9 +264,6 @@ void SRV_Channels::calc_pwm(void)
             override_counter[i]--;
         }
         channels[i].calc_pwm(functions[channels[i].function].output_scaled);
-        if(i > 32 && i < 36){
-        	printf("SRV_Chan %d: %d\n",i,functions[channels[i].function].output_scaled);//MODIF PRINT
-        }
     }
 }
 

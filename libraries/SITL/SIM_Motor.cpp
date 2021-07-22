@@ -111,6 +111,7 @@ void Motor::calculate_forces(const struct sitl_input &input,
 
     // calculate torque in newton-meters
     Vector3f torque = (arm % thrust) + rotor_torque;
+    torque.z = 0; //MODIF
 
     // calculate total rotational acceleration
     rot_accel.x = torque.x / moment_of_inertia.x;
@@ -194,7 +195,7 @@ float Motor::calc_thrust(float command, float air_density, float effective_prop_
 {
     float velocity_out = velocity_max * sqrtf((1-mot_expo)*command + mot_expo*sq(command));
     float ret = 0.5 * air_density * effective_prop_area * (sq(velocity_out) - sq(velocity_in));
-    ret = 26*command; //MODIF VIABLE
+    ret = 26*command; //VIABLE
 #if 0
     if (command > 0) {
         ::printf("air_density=%f effective_prop_area=%f velocity_in=%f velocity_max=%f\n",

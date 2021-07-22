@@ -706,13 +706,6 @@ void Plane::servos_twin_engine_mix(void)
         // doing forward thrust
         throttle_left  = constrain_float(throttle + 50 * rudder_dt, 0, 100);
         throttle_right = constrain_float(throttle - 50 * rudder_dt, 0, 100);
-        /*
-        SRV_Channels::set_output_scaled(SRV_Channel::k_motor1, constrain_float(SRV_Channels::get_output_scaled(SRV_Channel::k_motor1) - 50*rudder_dt, 0, 100));
-        SRV_Channels::set_output_scaled(SRV_Channel::k_motor2, constrain_float(SRV_Channels::get_output_scaled(SRV_Channel::k_motor2) + 50*rudder_dt, 0, 100));
-        SRV_Channels::set_output_scaled(SRV_Channel::k_motor3, constrain_float(SRV_Channels::get_output_scaled(SRV_Channel::k_motor3) + 50*rudder_dt, 0, 100));
-        SRV_Channels::set_output_scaled(SRV_Channel::k_motor4, constrain_float(SRV_Channels::get_output_scaled(SRV_Channel::k_motor4) - 50*rudder_dt, 0, 100));
-        printf("ser.cpp 33:%d 34:%d 35:%d 36:%d\n",SRV_Channels::get_output_scaled(SRV_Channel::k_motor1),SRV_Channels::get_output_scaled(SRV_Channel::k_motor2),SRV_Channels::get_output_scaled(SRV_Channel::k_motor3),SRV_Channels::get_output_scaled(SRV_Channel::k_motor4) );//MODIF PRINT
-        */
     }
     if (!hal.util->get_soft_armed()) {
         if (arming.arming_required() == AP_Arming::Required::YES_ZERO_PWM) {

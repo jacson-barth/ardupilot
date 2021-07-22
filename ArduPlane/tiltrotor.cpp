@@ -266,7 +266,6 @@ void QuadPlane::tilt_compensate_angle(float *thrust, uint8_t num_motors, float n
             thrust[i] = tilt.current_tilt * avg_tilt_thrust + thrust[i] * (1-tilt.current_tilt);
             // add in differential thrust for yaw control, scaled by tilt angle
             const float diff_thrust = motors->get_roll_factor(i) * motors->get_yaw() * sin_tilt * yaw_gain;
-            //printf("tilt.cpp thrust[%d]: %f + %f = %f\n", i, thrust[i], diff_thrust, thrust[i]+diff_thrust);//MODIF PRINT
             thrust[i] += diff_thrust;
             largest_tilted = MAX(largest_tilted, thrust[i]);
         }

@@ -76,7 +76,7 @@ private:
      */
     const struct Model {
         // model mass kg
-        float mass = 4.0;// MODIF was 6.0; before was 3.0;
+        float mass = 4.0;
 
         // diameter of model
         float diagonal_size = 0.35;

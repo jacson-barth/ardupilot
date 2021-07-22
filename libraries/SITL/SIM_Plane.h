@@ -76,7 +76,7 @@ protected:
         float c_m_0 = 0.045;
         float c_m_a = -0.7;
         float c_m_q = -20;
-        float c_m_deltae = 3; //MODIF was 1.0;
+        float c_m_deltae = 3;
         float c_n_0 = 0;
         float c_n_b = 0.25;
         float c_n_p = 0.022;
@@ -88,7 +88,7 @@ protected:
         float deltar_max = 0.3491;
         // the X CoG offset should be -0.02, but that makes the plane too tail heavy
         // in manual flight. Adjusted to -0.15 gives reasonable flight
-        Vector3f CGOffset{0, 0, 0}; //MODIF was {-0.15, 0, -0.05};
+        Vector3f CGOffset{0, 0, 0};
     } coefficient;
 
     float thrust_scale;
